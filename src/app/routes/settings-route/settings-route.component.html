@@ -1,0 +1,118 @@
+<div class="card">
+  <div class="card-header">
+    Environments
+  </div>
+  <div class="card-body">
+    <form [formGroup]="environmentForm" (ngSubmit)="submitEnvironmentForm(environmentForm)">
+      <div class="form-group">
+        <label for="user_service">User Service Url</label>
+        <input
+          type="url"
+          id="user_service"
+          class="form-control"
+          ngModel
+          name="user_service"
+          required
+        />
+        <label for="compiler_service" *ngIf="compileType == 2">Compiler Service url</label>
+        <input *ngIf="compileType == 2"
+          type="url"
+          id="compiler_service"
+          class="form-control"
+          ngModel
+          name="compiler_service"
+          required
+        />
+        <label for="exercise_service" *ngIf="exerciseType == 2">Exercise Service url</label>
+        <input *ngIf="exerciseType == 2"
+          type="url"
+          id="exercise_service"
+          class="form-control"
+          ngModel
+          name="exercise_service"
+          required
+        />
+        <label for="leaderboard_service">Leaderboard Service url</label>
+        <input
+          type="url"
+          id="leaderboard_service"
+          class="form-control"
+          ngModel
+          name="leaderboard_service"
+          required
+        />
+      </div>
+
+      <div>
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<hr>
+
+<div class="card">
+  <div class="card-header">
+    Compile mode
+  </div>
+  <div class="card-body">
+    <form #checkboxForm="ngForm" (submit)="submitCompileCheckboxes(checkboxForm)">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="Local" [checked]="compileType == 1" value="Local" (change)="clickCompileCheckbox(1)">
+        <label class="form-check-label" for="Local">
+          Local
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="Cloud" value="Cloud" [checked]="compileType == 2" [disabled]="!isUserAuthenticated" (change)="clickCompileCheckbox(2)">
+        <label class="form-check-label" for="Cloud">
+          Cloud <p *ngIf="!isUserAuthenticated" style="color: red"> To use cloud you need to login</p>
+        </label>
+      </div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+
+<div class="card">
+  <div class="card-header">
+    Exercise retrieval
+  </div>
+  <div class="card-body">
+    <form #checkboxForm="ngForm" (submit)="submitExerciseCheckboxes(checkboxForm)">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="LocalExercises" value="LocalExercises" [checked]="exerciseType == 1" (change)="clickExerciseCheckbox(1)">
+        <label class="form-check-label" for="LocalExercises">
+          GitHub
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="CloudExercises" value="CloudExercises" [checked]="exerciseType == 2" (change)="clickExerciseCheckbox(2)">
+        <label class="form-check-label" for="CloudExercises">
+          Exercise Service
+        </label>
+      </div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>
+
+

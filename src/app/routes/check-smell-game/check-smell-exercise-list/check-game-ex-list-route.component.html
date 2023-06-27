@@ -1,0 +1,60 @@
+<h1>Check Smell Game Mode</h1>
+
+<app-loader *ngIf="waitingForServer"></app-loader>
+
+<div *ngIf="this.exerciseType != 1 && this.exerciseType != 2" class="alert alert-danger" role="alert">
+  You need to set Exercise Retrieval in Settings
+</div>
+
+<div *ngIf="this.exerciseType == 1" class="alert alert-success" role="alert">
+  You are actually using Local Retrieve mode
+</div>
+
+<div *ngIf="this.exerciseType == 2" class="alert alert-success" role="alert">
+  You are actually using Cloud Retrieve mode
+</div>
+
+<div *ngIf="serverProblems" class="alert alert-danger" role="alert">
+  Exercise server has problems
+</div>
+
+<ul>
+  <li *ngFor="let item of exercises; let i = index">
+    <a routerLink="/check-game/{{item}}" >{{item}}</a>
+  </li>
+
+  <form *ngIf="enableGit" [formGroup]="gitForm" (ngSubmit)="prepareGetFilesFromRemote(gitForm)">
+    <div class="form-group">
+      <label for="url">Github repository url</label>
+      <input
+        type="url"
+        id="url"
+        class="form-control"
+        ngModel
+        name="url"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="branch">Branch</label>
+      <input
+        type="text"
+        id="branch"
+        class="form-control"
+        ngModel
+        name="branch"
+        required
+      />
+    </div>
+    <div>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!gitForm.valid"
+      >
+        Setup Github Repository
+      </button>
+    </div>
+  </form>
+
+</ul>

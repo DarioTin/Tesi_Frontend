@@ -1,0 +1,46 @@
+<div class="container">
+
+  <div *ngIf="this.compileType != 1 && this.compileType != 2; else showCompiler" class="alert alert-danger" role="alert">
+    You need to set Compile Mode in Settings
+  </div>
+
+  <ng-template #showCompiler>
+      <h1>{{exerciseName}}</h1>
+      <h3 style="color: green" *ngIf="compileType == 1">You are using Local Compile Mode</h3>
+      <h3 style="color: green" *ngIf="compileType == 2">You are using Cloud Compile Mode</h3>
+      <div class="row">
+        <div class="col">
+        </div>
+          <div class="row">
+            <div class="col">
+              <app-codeeditor #code [injectedCode]="userCode" [editable]="false"></app-codeeditor>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="col" style="padding-top: 20px">
+              <app-codeeditor #testing [injectedCode]="testingCode"></app-codeeditor>
+
+            </div>
+            <mat-divider></mat-divider>
+            <div>
+              <button type="button" class="btn btn-primary" (click)="compile()">Compile</button>
+              <button style="margin-left: 20px;" type="button" class="btn btn-primary" (click)="publishSolutionToLeaderboard()">Save in Leaderboard</button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="col">
+                <app-codeeditor #output [injectedCode]="shellCode" [editable]="false"></app-codeeditor>
+            </div>
+
+            <h4>Score : {{smellNumber}}</h4>
+            <h3>Refactoring result : {{refactoringResult}}</h3>
+            <h3>Smells : </h3>
+            <div *ngFor="let smell of smellList; let i = index">
+              <h3 style="margin-left:10px">{{smell}}</h3>
+              <div *ngFor="let method of methodList[i];">
+                <h4 style="margin-left:40px">{{method}}</h4>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" routerLink="/refactor-game/leaderboard/{{exerciseName}}">Leaderboard</button>
+          </div>
+        </div>
+</ng-template>
+</div>
