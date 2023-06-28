@@ -64,7 +64,7 @@
   <div class="card-body">
     <form #checkboxForm="ngForm" (submit)="submitCompileCheckboxes(checkboxForm)">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="Local" [checked]="compileType == 1" value="Local" (change)="clickCompileCheckbox(1)">
+        <input class="form-check-input" type="radio" disabled name="exampleRadios" id="Local" [checked]="compileType == 1" value="Local" (change)="clickCompileCheckbox(1)">
         <label class="form-check-label" for="Local">
           Local
         </label>
@@ -94,7 +94,7 @@
   <div class="card-body">
     <form #checkboxForm="ngForm" (submit)="submitExerciseCheckboxes(checkboxForm)">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="LocalExercises" value="LocalExercises" [checked]="exerciseType == 1" (change)="clickExerciseCheckbox(1)">
+        <input class="form-check-input" type="radio" disabled name="exampleRadios" id="LocalExercises" value="LocalExercises" [checked]="exerciseType == 1" (change)="clickExerciseCheckbox(1)">
         <label class="form-check-label" for="LocalExercises">
           GitHub
         </label>
