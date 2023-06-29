@@ -40,7 +40,7 @@ export class CheckGameCoreRouteComponent implements OnInit {
         this.testingCode = data
       })
 
-      this.exerciseService.getCheckGameConfigFile(this.exerciseName).subscribe(data=>{
+      this.exerciseService.getConfigFile(this.exerciseName).subscribe(data=>{
         console.log(data);
         // @ts-ignore
         data = data.check_game_configuration;

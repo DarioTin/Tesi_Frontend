@@ -56,10 +56,16 @@
             <mat-progress-bar [mode]="progressBarMode"></mat-progress-bar>
           </div>
         </div>
-        <span *ngIf="this.exerciseSuccess && this.progressBarMode!= 'query' " class="badge rounded-pill bg-success">Compilation Successful</span>
+        <span *ngIf="this.exerciseSuccess && this.progressBarMode!= 'query' && !(this.refactoringWarning || this.smellNumberWarning)" class="badge rounded-pill bg-success">Compilation Successful</span>
+        <span *ngIf="this.exerciseSuccess && this.progressBarMode!= 'query' && (this.refactoringWarning || this.smellNumberWarning) " class="badge rounded-pill bg-warning text-dark">Compilation Warning</span>
         <span *ngIf="!this.exerciseSuccess && this.shellCode != '' && this.progressBarMode != 'query' " class="badge rounded-pill bg-danger">Compilation Failure</span>
+
+
         <h4>Score : {{smellNumber}}</h4>
-        <h3>Refactoring result : {{refactoringResult}}</h3>
+        <h3 *ngIf="refactoringResult.toString() == 'false'" style="color: red">Refactoring result : {{refactoringResult}}</h3>
+        <h3 *ngIf="refactoringResult.toString() == 'true'" style="color: green">Refactoring result : {{refactoringResult}}</h3>
+        <h3 *ngIf="this.smellNumberWarning" style="color: red"> Smells allowed : {{this.config.smells_allowed}}</h3>
+
         <h3>Smells : </h3>
         <div *ngFor="let smell of smellList; let i = index">
           <h3 style="margin-left:10px">{{smell}}</h3>

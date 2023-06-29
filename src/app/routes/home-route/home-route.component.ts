@@ -10,9 +10,12 @@ export class HomeRouteComponent implements OnInit {
 
   constructor() { }
 
+
   ngOnInit(): void {
     console.log("Home opened");
   }
+
+
 
 
 }

@@ -34,7 +34,6 @@ export class AuthService {
     }).pipe(tap(response => {
       // @ts-ignore
       this.handleAuthentication(email, response.token);
-      localStorage.setItem("compileMode","0")
     }))
   }
 
@@ -46,6 +45,8 @@ export class AuthService {
       this.userService.user.next(user);
       localStorage.setItem("email",email);
       localStorage.setItem("token",token);
+      localStorage.setItem("compileMode","2")
+      localStorage.setItem("exerciseRetrieval","2")
       this.router.navigate(['/home']);
     },error => {
       this.logout();
@@ -67,8 +68,8 @@ export class AuthService {
     // @ts-ignore
     this.userService.user.next(null);
     localStorage.clear()
-    localStorage.setItem("compileMode","0");
-    localStorage.setItem("exerciseRetrieval","0");
+    localStorage.setItem("compileMode","2");
+    localStorage.setItem("exerciseRetrieval","2");
     this.router.navigate(['/auth']);
   }
 

@@ -20,6 +20,7 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
 
   compiledExercise !: Exercise;
   exerciseName = this.route.snapshot.params['exercise'];
+
   progressBarMode: ProgressBarMode = 'determinate'
 
   // RESULT
@@ -27,8 +28,14 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
   testingCode = "";
   shellCode =  "";
   smells = "";
+
   refactoringResult = "";
-  config !: string[];
+  config : {'refactoring_limit':number,
+    'smells_allowed': number
+  } = {
+    refactoring_limit: 0,
+    smells_allowed: 0
+  };
   smellNumber: number = 0
 
   // SMELL FORMATTING VARIABLES
@@ -36,53 +43,60 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
   smellList: string[] = [];
   methodList: string[] = []
 
+  java = "text/x-java";
+
   originalProductionCode = ""
   originalTestCode = ""
 
   exerciseType !: number;
   compileType!: number;
-  exerciseSuccess: boolean = false;
-  alertMessage: boolean = false;
 
+
+  // MESSAGES
+  exerciseSuccess: boolean = false;
+  smellNumberWarning: boolean = false;
+  refactoringWarning: boolean = false;
   constructor(private codeService: CodeeditorService,
               private exerciseService: ExerciseService,
               private route:ActivatedRoute,
               private zone:NgZone,
               private leaderboardService: LeaderboardService,
               private _snackBar: MatSnackBar) {}
-
   ngOnInit(): void {
     this.compileType = Number(localStorage.getItem("compileMode"));
     this.exerciseType = Number(localStorage.getItem("exerciseRetrieval"));
-    this.alertMessage = false;
 
-    // INIT CODE FROM CLOUD
-    this.exerciseService.getMainClass(this.exerciseName).subscribe( data=> {
-      this.userCode = data;
-      this.originalProductionCode = data;
-    });
-    this.exerciseService.getTestClass(this.exerciseName).subscribe( data => {
-      this.testingCode = data
-      this.originalTestCode = data
-    })
-    this.exerciseService.getConfigFile(this.exerciseName).subscribe(data=>{
-      // @ts-ignore
-      this.config = data;
-    })
-  }
+
+      // INIT CODE FROM CLOUD
+      this.exerciseService.getMainClass(this.exerciseName).subscribe( data=> {
+        this.userCode = data;
+        this.originalProductionCode = data;
+      });
+      this.exerciseService.getTestClass(this.exerciseName).subscribe( data => {
+        this.testingCode = data
+        this.originalTestCode = data
+      })
+      this.exerciseService.getConfigFile(this.exerciseName).subscribe(data=>{
+        // @ts-ignore
+        data = data.refactoring_game_configuration
+        const json = JSON.parse(JSON.stringify(data));
+        console.log(json);
+        this.config.refactoring_limit = json.refactoring_limit;
+        this.config.smells_allowed = json.smells_allowed;
+      })
+    }
 
   compile() {
     this.resetData();
     this.startLoading()
-
     // @ts-ignore
     const exercise = new Exercise(this.exerciseName,this.originalProductionCode, this.originalTestCode, this.testing.injectedCode);
     this.compiledExercise = exercise;
-    this.codeService.compile(exercise).subscribe(data =>{
+      this.codeService.compile(exercise).subscribe(data =>{
         this.elaborateCompilerAnswer(data);
       }, error => {
         this.showPopUp("Cloud server has a problem");
-        this.stopLoading();
+        this.stopLoading()
       });
   }
 
@@ -93,18 +107,18 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
   }
 
   publishSolutionToLeaderboard(){
-    this.startLoading();
+    this.startLoading()
     if(this.exerciseSuccess){
       this.leaderboardService.saveSolution(this.compiledExercise, this.smellNumber, Boolean(this.refactoringResult), this.smells).subscribe(result => {
         this.showPopUp("Solution saved");
-        this.stopLoading();
+        this.stopLoading()
       },error => {
         this.showPopUp("Server has a problem");
-        this.stopLoading();
+        this.stopLoading()
       });
     }else{
       this.showPopUp("To save your solution in leaderboard you have to complete the exercise");
-      this.stopLoading();
+      this.stopLoading()
     }
   }
 
@@ -140,7 +154,15 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
         this.methodList.push(JSON.parse(JSON.stringify(this.smellResult[i])).methods)
         this.smellNumber+=this.methodList[i].length;
       }
+      this.checkConfiguration();
     }
   }
 
+  checkConfiguration(){
+    console.log("ALLOWED : "  + this.config.smells_allowed)
+    if(this.refactoringResult.toString() == 'false')
+      this.refactoringWarning = true
+    if(this.config.smells_allowed < this.smellNumber)
+      this.smellNumberWarning = true;
+  }
 }

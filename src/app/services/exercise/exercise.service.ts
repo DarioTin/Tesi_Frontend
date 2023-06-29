@@ -45,23 +45,10 @@ export class ExerciseService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
-      responseType: 'text'
+      responseType: 'json'
     }
     return this.http.get<string>(environment.exerciseServiceUrl + '/files/' + exercise + "/Configuration", HTTPOptions);
   }
-
-  getCheckGameConfigFile(exercise: string){
-    let HTTPOptions:Object = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      }),
-      responseType: 'json'
-    }
-    return this.http.get(environment.exerciseServiceUrl + '/files/' + exercise + "/Configuration", HTTPOptions);
-  }
-
-
-
 
   initProductionCodeFromCloud(exerciseName: string) {
     let userCode;

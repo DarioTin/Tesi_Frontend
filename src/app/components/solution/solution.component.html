@@ -32,14 +32,14 @@
 
     <div style="margin-top: 10px;">
         <label>
-        <img *ngIf="!this.voteUp" style="cursor: pointer" src="assets/icons/like.png" alt="Option 1" (click)="vote(1)">
-        <img *ngIf="this.voteUp" style="cursor: pointer" src="assets/icons/selectedLike.png" alt="Option 1" (click)="vote(1)">
+          <mat-icon *ngIf="!this.voteUp" style="cursor: pointer" (click)="vote(1)">thumb_up</mat-icon>
+          <mat-icon *ngIf="this.voteUp" style="cursor: pointer; color: green" (click)="vote(1)">thumb_up</mat-icon>
         {{upVotes}}
       </label>
 
       <label style="margin-left: 20px;">
-        <img *ngIf="!this.voteDown" style="cursor: pointer" src="assets/icons/dislike.png" alt="Option 2" (click)="vote(2)">
-        <img *ngIf="this.voteDown" style="cursor: pointer" src="assets/icons/selectedDislike.png" alt="Option 2" (click)="vote(2)">
+        <mat-icon *ngIf="!this.voteDown" style="cursor: pointer" (click)="vote(2)">thumb_down</mat-icon>
+        <mat-icon *ngIf="this.voteDown" style="cursor: pointer; color: red" (click)="vote(2)">thumb_down</mat-icon>
         {{downVotes}}
       </label>
     </div>

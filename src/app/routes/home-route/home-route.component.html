@@ -1,15 +1,12 @@
 <mat-tab-group>
   <mat-tab label="News">
-    <h1>Frontend</h1>
-    <h2>Revision 1.0.0</h2>
-    <p>Added new home view</p>
-    <p>Added loaders</p>
-    <p>Improved Refactoring Game UI</p>
-    <p>Added new GitHub component</p>
-    <p>Improved topbar component</p>
-    <h1>Backend</h1>
-    <h2>User service</h2>
-    <p>Added Lombok support</p>
+    <app-logviewer></app-logviewer>
+  </mat-tab>
+  <mat-tab label="To Do">
+    <app-logtodo></app-logtodo>
+  </mat-tab>
+  <mat-tab label="Known Issues">
+    <app-logknownissues></app-logknownissues>
   </mat-tab>
   <mat-tab label="Smells">
     <h2>Assertion Roulette</h2>
@@ -19,14 +16,23 @@
     <h2>Conditional Test Logic</h2>
     <p>Test methods need to be simple and execute all statements in the production method. Conditions within the test method will alter the behavior of the test and its expected output, and would lead to situations where the test fails to detect defects in the production method since test statements were not executed as a condition was not met. Furthermore, conditional code within a test method negatively impacts the ease of comprehension by developers.</p>
     <p>Detection: A test method that contains one or more control statements (i.e if, switch, conditional expression, for, foreach and while statement).</p>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home">fff</mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+
   </mat-tab>
-  <mat-tab label="Come installare il server in locale">
+  <mat-tab label="Installazione server">
+
   </mat-tab>
-  <mat-tab label="Come installare il client in locale">
+  <mat-tab label="Installazione client">
     <h2>Developed by Dario Tintore</h2>
     <h3>Università degli studi di Napoli Federico II</h3>
   </mat-tab>
-  <mat-tab label="Come installare nuovi esercizi">
+  <mat-tab label="Aggiunta esercizi">
     <h1>Exercise server</h1>
     <p>L'exercise server è un microservizio che permette di effettuare il retrieve degli esercizi.</p>
     <p>Per poter inserire nuovi esercizi è necessario considerare la cartella ExerciseDB all'interno del microservizio dariotintore/exercise-service</p>

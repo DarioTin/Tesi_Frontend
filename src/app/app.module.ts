@@ -26,14 +26,19 @@ import {LoaderComponent} from './components/loader/loader.component';
 import {SettingsRouteComponent} from './routes/settings-route/settings-route.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeRouteComponent } from './routes/home-route/home-route.component';
-import {MatButtonModule} from "@angular/material/button";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatCardModule} from "@angular/material/card";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { LogtodoComponent } from './components/logs/logtodo/logtodo.component';
+import { LogknownissuesComponent } from './components/logs/logknownissues/logknownissues.component';
+import { LogviewerComponent } from './components/logs/logviewer/logviewer.component';
+import { LogelementComponent } from './components/logs/logviewer/logelement/logelement.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -51,6 +56,10 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     LoaderComponent,
     SettingsRouteComponent,
     HomeRouteComponent,
+    LogtodoComponent,
+    LogknownissuesComponent,
+    LogviewerComponent,
+    LogelementComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,8 +76,10 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatListModule,
     MatIconModule,
     MatTabsModule,
+    MatCardModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
