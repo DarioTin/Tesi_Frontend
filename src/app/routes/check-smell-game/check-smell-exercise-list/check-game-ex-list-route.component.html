@@ -2,15 +2,7 @@
 
 <mat-spinner *ngIf="waitingForServer"></mat-spinner>
 
-<div *ngIf="this.exerciseType != 1 && this.exerciseType != 2" class="alert alert-danger" role="alert">
-  You need to set Exercise Retrieval in Settings
-</div>
-
-<div *ngIf="this.exerciseType == 1" class="alert alert-success" role="alert">
-  You are actually using Local Retrieve mode
-</div>
-
-<div *ngIf="this.exerciseType == 2" class="alert alert-success" role="alert">
+<div class="alert alert-success" role="alert">
   You are actually using Cloud Retrieve mode
 </div>
 

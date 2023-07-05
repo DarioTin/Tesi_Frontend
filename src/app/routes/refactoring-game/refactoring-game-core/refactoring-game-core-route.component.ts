@@ -6,6 +6,8 @@ import {Exercise} from "../../../model/exercise/refactor-exercise.model";
 import {LeaderboardService} from "../../../services/leaderboard/leaderboard.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProgressBarMode} from "@angular/material/progress-bar";
+import {SmellDescription} from "../../../model/SmellDescription/SmellDescription.model";
+import {ExerciseConfiguration} from "../../../model/exercise/ExerciseConfiguration.model";
 
 @Component({
   selector: 'app-refactoring-game-core',
@@ -30,32 +32,27 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
   smells = "";
 
   refactoringResult = "";
-  config : {'refactoring_limit':number,
-    'smells_allowed': number
-  } = {
-    refactoring_limit: 0,
-    smells_allowed: 0
-  };
+
   smellNumber: number = 0
 
   // SMELL FORMATTING VARIABLES
   smellResult: string[] = [];
   smellList: string[] = [];
   methodList: string[] = []
-
-  java = "text/x-java";
+  exerciseConfiguration!: ExerciseConfiguration
 
   originalProductionCode = ""
   originalTestCode = ""
 
-  exerciseType !: number;
-  compileType!: number;
+
 
 
   // MESSAGES
   exerciseSuccess: boolean = false;
   smellNumberWarning: boolean = false;
   refactoringWarning: boolean = false;
+  smellDescriptions: SmellDescription[] = [];
+
   constructor(private codeService: CodeeditorService,
               private exerciseService: ExerciseService,
               private route:ActivatedRoute,
@@ -63,8 +60,7 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
               private leaderboardService: LeaderboardService,
               private _snackBar: MatSnackBar) {}
   ngOnInit(): void {
-    this.compileType = Number(localStorage.getItem("compileMode"));
-    this.exerciseType = Number(localStorage.getItem("exerciseRetrieval"));
+    this.initSmellDescriptions();
 
 
       // INIT CODE FROM CLOUD
@@ -77,13 +73,8 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
         this.originalTestCode = data
       })
       this.exerciseService.getConfigFile(this.exerciseName).subscribe(data=>{
-        // @ts-ignore
-        data = data.refactoring_game_configuration
-        const json = JSON.parse(JSON.stringify(data));
-        console.log(json);
-        this.config.refactoring_limit = json.refactoring_limit;
-        this.config.smells_allowed = json.smells_allowed;
-      })
+        this.exerciseConfiguration = data;
+        this.setupConfigFiles(data);})
     }
 
   compile() {
@@ -92,7 +83,7 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
     // @ts-ignore
     const exercise = new Exercise(this.exerciseName,this.originalProductionCode, this.originalTestCode, this.testing.injectedCode);
     this.compiledExercise = exercise;
-      this.codeService.compile(exercise).subscribe(data =>{
+      this.codeService.compile(exercise,this.exerciseConfiguration).subscribe(data =>{
         this.elaborateCompilerAnswer(data);
       }, error => {
         this.showPopUp("Cloud server has a problem");
@@ -159,10 +150,67 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
   }
 
   checkConfiguration(){
-    console.log("ALLOWED : "  + this.config.smells_allowed)
     if(this.refactoringResult.toString() == 'false')
       this.refactoringWarning = true
-    if(this.config.smells_allowed < this.smellNumber)
+    if(this.exerciseConfiguration.refactoring_game_configuration.smells_allowed < this.smellNumber)
       this.smellNumberWarning = true;
+  }
+
+  setupConfigFiles(data: any){
+    this.exerciseConfiguration.refactoring_game_configuration.refactoring_limit = data.refactoring_game_configuration.refactoring_limit;
+    this.exerciseConfiguration.refactoring_game_configuration.smells_allowed = data.refactoring_game_configuration.smells_allowed;
+  }
+
+
+  async initSmellDescriptions() {
+    // @ts-ignore
+    await import('./smell_description.json').then((data) => {
+      this.smellDescriptions = data.smells;
+    });
+  }
+
+  getSmellNumber(smell: string) {
+    switch (smell){
+      case 'Assertion Roulette':
+        return 0;
+      case 'Conditional Test Logic':
+        return 1;
+      case 'Constructor Initialization':
+        return 2;
+      case 'Default Test':
+        return 3;
+      case 'Duplicate Assert':
+        return 4;
+      case 'Eager Test':
+        return 5;
+      case 'Empty Test':
+        return 6;
+      case 'Exception Handling':
+        return 7;
+      case 'General Fixture':
+        return 8;
+      case 'Ignored Test':
+        return 9;
+      case 'Lazy Test':
+        return 10;
+      case 'Magic Number Test':
+        return 11;
+      case 'Mystery Guest':
+        return 12;
+      case 'Redundant Print':
+        return 13;
+      case 'Redundant Assertion':
+        return 14;
+      case 'Resource Optimism':
+        return 15;
+      case 'Sensitive Equality':
+        return 16;
+      case 'Sleepy Test':
+        return 17;
+      case 'Unknown Test':
+        return 18;
+      default:
+        return 19;
+    }
   }
 }

@@ -39,6 +39,7 @@ import { LogknownissuesComponent } from './components/logs/logknownissues/logkno
 import { LogviewerComponent } from './components/logs/logviewer/logviewer.component';
 import { LogelementComponent } from './components/logs/logviewer/logelement/logelement.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatCardModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatCheckboxModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

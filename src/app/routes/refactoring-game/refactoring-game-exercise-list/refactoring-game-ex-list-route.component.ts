@@ -19,24 +19,15 @@ export class RefactoringGameExListRouteComponent implements OnInit {
 
   constructor(private exerciseService: ExerciseService,
               private zone:NgZone,
-              private _router: Router,
-              private fb: FormBuilder,
+              private _router: Router)
+  { }
 
-  ) { }
   exercises = new Array<any>();
-  enableGit = false
   serverProblems = false;
-  gitForm: any;
   waitingForServer!: boolean;
-  exerciseType !: number;
 
   ngOnInit(): void {
-
-    this.exerciseType = Number(localStorage.getItem("exerciseRetrieval"));
-
-
     // GET EXERCISES LIST FROM CLOUD
-    if (this.exerciseType == 2){
       this.waitingForServer = true;
       this.exerciseService.getExercises().subscribe(response =>{
         this.waitingForServer = false;
@@ -45,26 +36,5 @@ export class RefactoringGameExListRouteComponent implements OnInit {
         this.serverProblems = true;
         this.waitingForServer = false;
       });
-      // GET EXERCISES LIST FROM GIT
-    } else if (this.exerciseType == 1){
-      this.waitingForServer = false;
-      this.enableGetExercisesFromGit()
-    }
   }
-
-
-  private enableGetExercisesFromGit() {
-    this.enableGit = true
-    this.gitForm = this.fb.group({
-      url:"https://github.com/DarioTin/Tesi-Exercises-Repository",
-      branch:"exercises"
-    })
-  }
-
-  prepareGetFilesFromRemote(form: NgForm){
-    this.exercises = [];
-    environment.repositoryUrl = form.value.url;
-    environment.repositoryBranch = form.value.branch;
-  }
-
 }

@@ -3,7 +3,6 @@ import {FormBuilder, NgForm} from "@angular/forms";
 import {environment} from "../../../environments/environment.prod";
 import {UserService} from "../../services/user/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {SettingsService} from "../../services/settings/settings.service";
 
 @Component({
   selector: 'app-settings-route',
@@ -13,21 +12,14 @@ import {SettingsService} from "../../services/settings/settings.service";
 export class SettingsRouteComponent implements OnInit {
 
   environmentForm: any;
-  compileType!: number;
-  exerciseType!: number;
   isUserAuthenticated!: boolean;
   constructor(private fb: FormBuilder,
               private userService: UserService,
-              private _snackBar: MatSnackBar,
-              private settingsService: SettingsService,
-              private zone:NgZone) {
+              private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
     this.fillEnvironmentForm();
-    this.compileType = Number(localStorage.getItem("compileMode"));
-    this.exerciseType = Number(localStorage.getItem("exerciseRetrieval"));
-    console.log("Exercise type : " + this.exerciseType);
     this.isUserAuthenticated = this.userService.user.getValue() !== null;
   }
 
@@ -40,16 +32,6 @@ export class SettingsRouteComponent implements OnInit {
     })
 
   }
-
-
-  clickCompileCheckbox(compileType: number) {
-    this.compileType = compileType;
-  }
-
-  clickExerciseCheckbox(number: number) {
-    this.exerciseType = number;
-  }
-
   submitEnvironmentForm(environmentForm: any) {
     environment.userServiceUrl = environmentForm.value.user_service
     environment.compilerServiceUrl = environmentForm.value.compiler_service
@@ -62,17 +44,9 @@ export class SettingsRouteComponent implements OnInit {
   }
 
   submitCompileCheckboxes(checkboxForm: NgForm) {
-    localStorage.setItem("compileMode", this.compileType.toString());
 
     this._snackBar.open("Settings saved", "Close", {
         duration: 3000
-    });
-  }
-
-  submitExerciseCheckboxes(checkboxForm: NgForm) {
-    localStorage.setItem("exerciseRetrieval", this.exerciseType.toString());
-    this._snackBar.open("Settings saved", "Close", {
-      duration: 3000
     });
   }
 

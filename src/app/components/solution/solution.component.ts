@@ -3,7 +3,6 @@ import {SolutionComment} from "../../model/comment/comment";
 import {NgForm} from "@angular/forms";
 import {LeaderboardService} from "../../services/leaderboard/leaderboard.service";
 import {UserService} from "../../services/user/user.service";
-import {MatExpansionModule} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-solution',
@@ -20,9 +19,10 @@ export class SolutionComponent implements OnInit {
   @Input() upVotes!: number;
   @Input() downVotes!: number;
   @Input() data_bs_target!: string;
-  @Input() score!: number
-  @Input() refactoringResult!: boolean
-  @Input() smells!: string
+  @Input() score!: number;
+  @Input() refactoringResult!: boolean;
+  @Input() smells!: string;
+  @Input() isAutoValutative!: boolean;
 
   commentForm: any;
   constructor(private leaderboardService: LeaderboardService, private userService: UserService) { }
@@ -36,21 +36,23 @@ export class SolutionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.leaderboardService.getVoteForUser(this.solutionId, this.userService.user.getValue().userId).subscribe(vote =>{
-      if(vote == "UP"){
-        this.voteUp = true;
-        this.userVote = 1;
+    if(!this.isAutoValutative){
+      this.leaderboardService.getVoteForUser(this.solutionId, this.userService.user.getValue().userId).subscribe(vote =>{
+        if(vote == "UP"){
+          this.voteUp = true;
+          this.userVote = 1;
+        }
+        else if(vote == "DOWN"){
+          this.voteDown = true;
+          this.userVote = 2;
+        }
+      })
+      const json = JSON.parse(this.smells);
+      this.smellList = Object.keys(json);
+      this.smellResult = Object.values(json);
+      for (let i=0;i<this.smellResult.length;i++){
+        this.methodList.push(JSON.parse(JSON.stringify(this.smellResult[i])).methods)
       }
-      else if(vote == "DOWN"){
-        this.voteDown = true;
-        this.userVote = 2;
-      }
-    })
-    const json = JSON.parse(this.smells);
-    this.smellList = Object.keys(json);
-    this.smellResult = Object.values(json);
-    for (let i=0;i<this.smellResult.length;i++){
-      this.methodList.push(JSON.parse(JSON.stringify(this.smellResult[i])).methods)
     }
   }
 

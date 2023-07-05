@@ -10,7 +10,6 @@ import {UserService} from "../user/user.service";
   providedIn: 'root'
 })
 export class AuthService {
-  // @ts-ignore
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -45,8 +44,6 @@ export class AuthService {
       this.userService.user.next(user);
       localStorage.setItem("email",email);
       localStorage.setItem("token",token);
-      localStorage.setItem("compileMode","2")
-      localStorage.setItem("exerciseRetrieval","2")
       this.router.navigate(['/home']);
     },error => {
       this.logout();
@@ -68,9 +65,8 @@ export class AuthService {
     // @ts-ignore
     this.userService.user.next(null);
     localStorage.clear()
-    localStorage.setItem("compileMode","2");
-    localStorage.setItem("exerciseRetrieval","2");
     this.router.navigate(['/auth']);
   }
+
 
 }

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {LeaderboardService} from "../../services/leaderboard/leaderboard.service";
 import {Solution} from "../../model/solution/solution";
 import {ExerciseService} from "../../services/exercise/exercise.service";
+import {ExerciseConfiguration} from "../../model/exercise/ExerciseConfiguration.model";
 
 @Component({
   selector: 'app-leaderboard-route',
@@ -15,32 +16,24 @@ export class LeaderboardRouteComponent implements OnInit {
   solutions!: Solution[]
   exerciseCode!: string;
   testingCode!: string;
-  exerciseType !: number;
   exerciseName = this.route.snapshot.params['exercise'];
+  isAutoValutative!: boolean;
+  exerciseConfiguration!: ExerciseConfiguration;
+
 
   constructor(private http: HttpClient,
               private router: Router,
               private leaderboardService: LeaderboardService,
               private exerciseService: ExerciseService,
-              private zone:NgZone,
               private route:ActivatedRoute) {
     // GET TESTING CLASS FROM ELECTRON
   }
 
   ngOnInit(): void {
-    this.exerciseType = Number(localStorage.getItem("exerciseRetrieval"));
+    this.getConfiguration();
 
-    // INIT CODE FROM LOCAL
-    if(this.exerciseType == 1){
-    }else if(this.exerciseType == 2){
-      // INIT CODE FROM CLOUD
-      this.exerciseService.getMainClass(this.exerciseName).subscribe( data=> {
-        this.exerciseCode = data;
-      });
-      this.exerciseService.getTestClass(this.exerciseName).subscribe( data => {
-        this.testingCode = data
-      })
-    }
+    if(!this.isAutoValutative)
+      this.retrieveCode();
 
     this.leaderboardService.getSolutionsByExerciseName(this.exerciseName).subscribe(data=>{
       this.solutions = data;
@@ -48,4 +41,20 @@ export class LeaderboardRouteComponent implements OnInit {
 
   }
 
+  retrieveCode(){
+    this.exerciseService.getMainClass(this.exerciseName).subscribe( data=> {
+      this.exerciseCode = data;
+    });
+    this.exerciseService.getTestClass(this.exerciseName).subscribe( data => {
+      this.testingCode = data
+    })
+  }
+  setupConfigFiles(data:any){
+    this.exerciseConfiguration = data;
+    this.isAutoValutative = this.exerciseConfiguration.auto_valutative;
+  }
+
+  getConfiguration() {
+    this.exerciseService.getConfigFile(this.exerciseName).subscribe(data=>{this.setupConfigFiles(data)})
+  }
 }

@@ -2,6 +2,10 @@ import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import {CodeeditorService} from "../../../services/codeeditor/codeeditor.service";
 import {ExerciseService} from "../../../services/exercise/exercise.service";
 import {ActivatedRoute} from "@angular/router";
+import {Question} from "../../../model/question/question.model";
+import {Answer} from "../../../model/question/answer.model";
+import {ExerciseConfiguration} from "../../../model/exercise/ExerciseConfiguration.model";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-check-game-core',
@@ -9,60 +13,73 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./check-game-core-route.component.css']
 })
 export class CheckGameCoreRouteComponent implements OnInit {
-  smells!: string[];
-  answers!: string[];
-  private config : string[] = [];
   exerciseName = this.route.snapshot.params['exercise'];
-  testingCode = "";
-  @ViewChild('testing') testing: any;
-  java = "text/x-java";
-  fail: boolean = false;
-  success: boolean = false;
-  exerciseType !: number;
+  exerciseRetrievalType !: number;
+  actualQuestionNumber: number = 0;
 
+  questions !: Question[];
+  selectedAnswers: Answer[] = []
+  exerciseConfiguration!: ExerciseConfiguration
+
+
+  exerciseCompleted:boolean = false;
+  score: number = 0;
   constructor(private codeService: CodeeditorService,
               private exerciseService: ExerciseService,
-              private route:ActivatedRoute,
-              private zone:NgZone)
-  {
-
-  }
+              private route:ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.exerciseType = Number(localStorage.getItem("exerciseRetrieval"));
-
-    // INIT PRODUCTION CLASS FROM LOCAL
-    if(this.exerciseType == 1){
-      // INIT PRODUCTION CLASS FROM CLOUD
-    }else if(this.exerciseType == 2){
-
-      this.exerciseService.getTestClass(this.exerciseName).subscribe( data => {
-        this.testingCode = data
-      })
+    this.exerciseRetrievalType = Number(localStorage.getItem("exerciseRetrieval"));
 
       this.exerciseService.getConfigFile(this.exerciseName).subscribe(data=>{
-        console.log(data);
-        // @ts-ignore
-        data = data.check_game_configuration;
-        // @ts-ignore
-        this.smells = Object.keys(data.smells)
-        // @ts-ignore
-        this.answers = Object.values(data.smells)
-
+        this.setupQuestions(data);
       })
-    }
 
   }
 
-  checkAnswer(i: number) {
-    this.fail = false;
-    this.success = false;
-    // @ts-ignore
-    if (this.answers[i].isPresent == false) {
-      this.fail = true;
-    }else{
-      this.success = true;
-    }
+  private setupQuestions(data: any) {
+    this.exerciseConfiguration = data;
+    this.questions = data.check_game_configuration.questions
+  }
 
+  selectAnswer(option: Answer) {
+    this.clearCheckboxes();
+    this.selectedAnswers[this.actualQuestionNumber] = option;
+    option.isChecked = true;
+  }
+
+  goForward() {
+    console.log(this.questions.length - 1)
+    if(this.actualQuestionNumber < this.questions.length - 1){
+      this.actualQuestionNumber = this.actualQuestionNumber + 1;
+    }
+  }
+
+  goBackward() {
+    if(this.actualQuestionNumber > 0){
+      this.actualQuestionNumber = this.actualQuestionNumber - 1;
+    }
+  }
+
+  showResults(){
+    this.exerciseCompleted = true;
+    this.calculateScore();
+  }
+
+  changeCheckbox(checkbox: MatCheckbox) {
+    checkbox.checked = true;
+  }
+
+  calculateScore(){
+    this.selectedAnswers.forEach((answer)=>{
+      if(answer.isCorrect == true)
+        this.score += 1;
+    })
+  }
+
+  private clearCheckboxes() {
+    this.questions[this.actualQuestionNumber].answers.forEach((element)=>{
+      element.isChecked = false;
+    });
   }
 }

@@ -14,8 +14,8 @@
           name="user_service"
           required
         />
-        <label for="compiler_service" *ngIf="compileType == 2">Compiler Service url</label>
-        <input *ngIf="compileType == 2"
+        <label for="compiler_service" >Compiler Service url</label>
+        <input
           type="url"
           id="compiler_service"
           class="form-control"
@@ -23,8 +23,8 @@
           name="compiler_service"
           required
         />
-        <label for="exercise_service" *ngIf="exerciseType == 2">Exercise Service url</label>
-        <input *ngIf="exerciseType == 2"
+        <label for="exercise_service">Exercise Service url</label>
+        <input
           type="url"
           id="exercise_service"
           class="form-control"
@@ -64,13 +64,14 @@
   <div class="card-body">
     <form #checkboxForm="ngForm" (submit)="submitCompileCheckboxes(checkboxForm)">
       <div class="form-check">
-        <input class="form-check-input" type="radio" disabled name="exampleRadios" id="Local" [checked]="compileType == 1" value="Local" (change)="clickCompileCheckbox(1)">
+        <input class="form-check-input" type="radio" disabled name="exampleRadios" id="Local" value="Local">
         <label class="form-check-label" for="Local">
           Local
+          <p style="color: red">To use Local compile you need to execute the Electron App</p>
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="Cloud" value="Cloud" [checked]="compileType == 2" [disabled]="!isUserAuthenticated" (change)="clickCompileCheckbox(2)">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="Cloud" value="Cloud" checked [disabled]="!isUserAuthenticated">
         <label class="form-check-label" for="Cloud">
           Cloud <p *ngIf="!isUserAuthenticated" style="color: red"> To use cloud you need to login</p>
         </label>
@@ -92,15 +93,16 @@
     Exercise retrieval
   </div>
   <div class="card-body">
-    <form #checkboxForm="ngForm" (submit)="submitExerciseCheckboxes(checkboxForm)">
+    <form #checkboxForm="ngForm">
       <div class="form-check">
-        <input class="form-check-input" type="radio" disabled name="exampleRadios" id="LocalExercises" value="LocalExercises" [checked]="exerciseType == 1" (change)="clickExerciseCheckbox(1)">
+        <input class="form-check-input" type="radio" disabled name="exampleRadios" id="LocalExercises" value="LocalExercises">
         <label class="form-check-label" for="LocalExercises">
           GitHub
+          <p style="color: red">To use GitHub you need to execute the Electron App</p>
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="CloudExercises" value="CloudExercises" [checked]="exerciseType == 2" (change)="clickExerciseCheckbox(2)">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="CloudExercises" value="CloudExercises" checked>
         <label class="form-check-label" for="CloudExercises">
           Exercise Service
         </label>
