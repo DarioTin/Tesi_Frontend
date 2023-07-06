@@ -52,7 +52,7 @@
           <h3 style="font-style: italic"> {{comment.commentAuthor}}</h3>
         </mat-panel-title>
         <mat-panel-description>
-          {{comment.creationTimestamp}}
+          {{comment.creationTimestamp | date:'full':'+0200'}}
         </mat-panel-description>
       </mat-expansion-panel-header>
       {{comment.commentText}}
