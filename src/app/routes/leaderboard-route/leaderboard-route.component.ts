@@ -35,10 +35,6 @@ export class LeaderboardRouteComponent implements OnInit {
     if(!this.isAutoValutative)
       this.retrieveCode();
 
-    this.leaderboardService.getSolutionsByExerciseName(this.exerciseName).subscribe(data=>{
-      this.solutions = data;
-    })
-
   }
 
   retrieveCode(){
@@ -52,6 +48,10 @@ export class LeaderboardRouteComponent implements OnInit {
   setupConfigFiles(data:any){
     this.exerciseConfiguration = data;
     this.isAutoValutative = this.exerciseConfiguration.auto_valutative;
+    this.leaderboardService.getSolutionsByExerciseName(this.exerciseConfiguration.exerciseId).subscribe(data=>{
+      this.solutions = data;
+    })
+
   }
 
   getConfiguration() {

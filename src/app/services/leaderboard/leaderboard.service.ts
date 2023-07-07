@@ -4,6 +4,7 @@ import {environment} from "../../../environments/environment.prod";
 import {Solution} from "../../model/solution/solution";
 import {Exercise} from "../../model/exercise/refactor-exercise.model";
 import {UserService} from "../user/user.service";
+import {ExerciseConfiguration} from "../../model/exercise/ExerciseConfiguration.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class LeaderboardService {
     return this.http.get<Solution[]>(environment.leaderboardServiceUrl + '/leaderboard/' + exercise);
   }
 
-  saveSolution(exercise: Exercise, score: number, refactoringResult: boolean, smells: Object){
+  saveSolution(exercise: Exercise, exerciseConfiguration: ExerciseConfiguration, score: number, refactoringResult: boolean, smells: Object){
     console.log(environment.leaderboardServiceUrl+'/leaderboard/')
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
@@ -24,7 +25,7 @@ export class LeaderboardService {
       }),
     }
     const body = {
-      "exerciseName": exercise.exerciseName,
+      "exerciseId": exerciseConfiguration.exerciseId,
       "playerName": this.userService.user.getValue().userName,
       "refactoredCode": exercise.refactoredTestCode,
       "score": score,

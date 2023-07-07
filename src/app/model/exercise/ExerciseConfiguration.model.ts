@@ -1,7 +1,8 @@
 import {Question} from "../question/question.model";
 
 export class ExerciseConfiguration {
-    refactoring_game_configuration!: {
+  exerciseId!: string;
+  refactoring_game_configuration!: {
       'dependencies': string,
       'refactoring_limit': number,
       'smells_allowed': number
