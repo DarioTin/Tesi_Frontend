@@ -121,6 +121,8 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
     this.smellResult = []
     this.smellNumber = 0
     this.exerciseSuccess = false;
+    this.smellNumberWarning = false;
+    this.refactoringWarning = false;
   }
 
   startLoading(){
