@@ -1,13 +1,5 @@
 <div class="container">
-
-  <div *ngIf="this.compileType != 1 && this.compileType != 2; else showCompiler" class="alert alert-danger" role="alert">
-    You need to set Compile Mode in Settings
-  </div>
-
-  <ng-template #showCompiler>
     <h1>{{exerciseName}}</h1>
-    <h3 style="color: green" *ngIf="compileType == 1">You are using Local Compile Mode</h3>
-    <h3 style="color: green" *ngIf="compileType == 2">You are using Cloud Compile Mode</h3>
     <div class="row">
       <div class="col">
       </div>
@@ -60,6 +52,7 @@
         <span *ngIf="this.exerciseSuccess && this.progressBarMode!= 'query' && (this.refactoringWarning || this.smellNumberWarning) " class="badge rounded-pill bg-warning text-dark">Compilation Warning</span>
         <span *ngIf="!this.exerciseSuccess && this.shellCode != '' && this.progressBarMode != 'query' " class="badge rounded-pill bg-danger">Compilation Failure</span>
 
+
         <div *ngIf="this.exerciseSuccess">
           <h4>Score : {{smellNumber}}</h4>
           <div class="refactor-result" *ngIf="refactoringResult != undefined">
@@ -95,5 +88,4 @@
         <button type="button" class="btn btn-primary" routerLink="/refactor-game/leaderboard/{{exerciseName}}">Leaderboard</button>
       </div>
     </div>
-  </ng-template>
 </div>
