@@ -9,38 +9,67 @@
     <app-logknownissues></app-logknownissues>
   </mat-tab>
   <mat-tab label="Smells">
-    <h2>Assertion Roulette</h2>
-    <p>Occurs when a test method has multiple non-documented assertions. Multiple assertion statements in a test method without a descriptive message impacts readability/understandability/maintainability as it’s not possible to understand the reason for the failure of the test.</p>
-    <p>Detection: A test method contains more than one assertion statement without without an explanation/message (parameter in the assertion method).</p>
-
-    <h2>Conditional Test Logic</h2>
-    <p>Test methods need to be simple and execute all statements in the production method. Conditions within the test method will alter the behavior of the test and its expected output, and would lead to situations where the test fails to detect defects in the production method since test statements were not executed as a condition was not met. Furthermore, conditional code within a test method negatively impacts the ease of comprehension by developers.</p>
-    <p>Detection: A test method that contains one or more control statements (i.e if, switch, conditional expression, for, foreach and while statement).</p>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home">fff</mat-icon>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-
+    <p>Per la definizione degli smells si rimanda alla seguente pagina</p>
+    <a>https://testsmells.org/pages/testsmells.html</a>
   </mat-tab>
   <mat-tab label="Installazione server">
-
+    <h1>Installazione</h1>
+    <p>Per installare l’infrastruttura server in locale è necessario clonare il seguente repository:</p>
+    <a>https://github.com/DarioTin/Tesi-Server-Setup</a>
+    <p>Dopo aver clonato il repository è necessario aprire un terminale all’interno della directory creata ed inviare all’interno del terminale</p>
+    <p style="font-style: italic">docker-compose up</p>
+    <p>Ottenendo un risultato del genere:</p>
+    <img src="assets/images/compose.png" height="110" width="369" alt="dockercompose">
+    <p>In questo scenario avverrà la creazione di tutti i container necessari alla creazione dell’infrastruttura necessaria ad ospitare una sessione di gioco. </p>
+    <img src="assets/images/docker.png" height="256" width="647" alt="docker">
+    <p>In seguito all’avvio di tutti i container è possibile accedere all’applicativo, partendo dal calcolatore server, al seguente indirizzo</p>
+    <a>http://localhost:4200/</a>
+    <p>In questo scenario avremo quindi installato correttamente il server in locale.</p>
   </mat-tab>
   <mat-tab label="Installazione client">
-    <h2>Developed by Dario Tintore</h2>
-    <h3>Università degli studi di Napoli Federico II</h3>
+    <p>Per installare il client in locale è necessario clonare la seguente repository oppure scaricare l’ultima release dal seguente indirizzo:</p>
+    <a>https://github.com/DarioTin/Tesi-Client-Setup/releases</a>
+    <p>Dopo aver estratto il tutto, è necessario aprire un terminale all’interno della directory creata ed inviare all’interno del terminale</p>
+    <p style="font-style: italic">npm install</p>
+    <p>In questo caso, siccome l’installazione è indipendente dal sistema operativo, il nome della cartella e l’estensione dell’eseguibile che verrà creato varierà in base alla piattaforma su cui il comando sarà avviato.</p>
+    <p>Al termine dell’installazione verrà installato all’interno della directory “DarioTintore-Tesi-...” l’applicativo in locale, che potrà essere avviato con la seguente procedura:</p>
+    <ol type="1">
+      <li>Aprire un terminale all’interno della directory “DarioTintore-Tesi-...”</li>
+      <li>Eseguire il comando di avvio per l’eseguibile creato all’interno della directory “DarioTintore-Tesi"</li>
+      <li>Inizia a giocare 🙂</li>
+    </ol>
   </mat-tab>
   <mat-tab label="Aggiunta esercizi">
-    <h1>Exercise server</h1>
-    <p>L'exercise server è un microservizio che permette di effettuare il retrieve degli esercizi.</p>
-    <p>Per poter inserire nuovi esercizi è necessario considerare la cartella ExerciseDB all'interno del microservizio dariotintore/exercise-service</p>
-    <mat-divider></mat-divider>
-    <h1>Github Repository</h1>
+    <p>L’aggiunta degli esercizi può essere effettuata su due piattaforme, su GitHub oppure tramite l’exercise service.</p>
+    <p>Gli esercizi recuperabili da github possono essere recuperati solo tramite la desktop application, mentre gli esercizi inseriti sull’exercise service possono essere recuperati da tutte le versioni dell’applicazione, ma richiedono che il microservizio “exercise service” sia attivo.</p>
+    <p>Sia nel caso dell’aggiunta di esercizi sulla repository GitHub che dell’aggiunta di esercizi sul microservizio, le regole da seguire sono identiche, l’unica cosa che cambia è il luogo in cui gli esercizi risiedono.</p>
+    <h1>GitHub</h1>
+    <p>Per aggiungere un nuovo esercizio recuperabile tramite github è necessario creare una nuova repository, in cui ad ogni esercizio è associata una cartella, ed in ogni cartella ci sono 3 file, dove i file java devono avere lo stesso nome dell’esercizio in questione.</p>
+    <h1>ExerciseRepository</h1>
+    <p>Per aggiungere un nuovo esercizio recuperabile tramite microservizio Exercise Repository è necessario creare una cartella all’interno della cartella ExerciseDB, in cui ad ogni esercizio è associata una cartella, ed in ogni cartella ci sono 3 file, dove i file java devono avere lo stesso nome dell’esercizio in questione</p>
+    <h1>Struttura esercizio</h1>
+    <p>Ad esempio se stiamo considerando di aggiungere un nuovo esercizio nominato “StringFormatter” avremo una struttura del genere</p>
+    <p>Per aggiungere un esercizio al microservizio ExerciseRespository è necessario</p>
+    StringTester (Nome cartella)
+    <ul>
+      <li>StringFormatter.Java (Nome file di produzione)</li>
+      <li>StringFormatterTest.java (Nome file di testing originale)</li>
+      <li>StringFormatterConfig.json (Nome file di configurazione)</li>
+    </ul>
+    <p>Quindi si richiede una configurazione del genere</p>
+    <p>{{ '{' }}Nome Esercizio{{ '}' }} (Directory)</p>
+    <ul>
+      <li>{{ '{' }}Nome Esercizio{{ '}' }}.java (File java di produzione)</li>
+      <li>{{ '{' }}Nome Esercizio{{ '}' }}Test.java (File java di test)</li>
+      <li>{{ '{' }}Nome Esercizio{{ '}' }}Config.java (File di configurazione)</li>
+    </ul>
+    <p>La struttura dei file è la seguente:</p>
+    <p>Nel file di produzione e di test deve esserci sempre il seguente package:</p>
+    <p style="font-weight: bold">package com.dariotintore.tesi;</p>
   </mat-tab>
   <mat-tab label="About">
     <h2>Developed by Dario Tintore</h2>
+    <h2>Relatore Porfirio Tramontana</h2>
     <h3>Università degli studi di Napoli Federico II</h3>
   </mat-tab>
 
