@@ -200,7 +200,7 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
         return 11;
       case 'Mystery Guest':
         return 12;
-      case 'Redundant Print':
+      case 'Print Statement':
         return 13;
       case 'Redundant Assertion':
         return 14;
