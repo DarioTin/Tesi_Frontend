@@ -17,7 +17,13 @@ export class LeaderboardService {
     return this.http.get<Solution[]>(environment.leaderboardServiceUrl + '/leaderboard/' + exercise);
   }
 
-  saveSolution(exercise: Exercise, exerciseConfiguration: ExerciseConfiguration, score: number, refactoringResult: boolean, smells: Object){
+  saveSolution(exercise: Exercise,
+               exerciseConfiguration: ExerciseConfiguration,
+               score: number,
+               refactoringResult: boolean,
+               originalCoverage: number,
+               refactoredCoverage:number,
+               smells: Object){
     console.log(environment.leaderboardServiceUrl+'/leaderboard/')
     let HTTPOptions:Object = {
       headers: new HttpHeaders({
@@ -30,6 +36,8 @@ export class LeaderboardService {
       "refactoredCode": exercise.refactoredTestCode,
       "score": score,
       "refactoringResult": refactoringResult,
+      "originalCoverage": originalCoverage,
+      "refactoredCoverage": refactoredCoverage,
       "smells": smells
     }
     return this.http.post(environment.leaderboardServiceUrl+'/leaderboard/', body, HTTPOptions)

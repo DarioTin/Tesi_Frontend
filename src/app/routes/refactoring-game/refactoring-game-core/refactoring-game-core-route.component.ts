@@ -104,7 +104,13 @@ export class RefactoringGameCoreRouteComponent implements OnInit {
   publishSolutionToLeaderboard(){
     this.startLoading()
     if(this.exerciseSuccess){
-      this.leaderboardService.saveSolution(this.compiledExercise, this.exerciseConfiguration, this.smellNumber, Boolean(this.refactoringResult), this.smells).subscribe(result => {
+      this.leaderboardService.saveSolution(this.compiledExercise,
+                                           this.exerciseConfiguration,
+                                           this.smellNumber,
+                                           Boolean(this.refactoringResult),
+                                           this.originalCoverage,
+                                           this.refactoredCoverage,
+                                           this.smells).subscribe(result => {
         this.showPopUp("Solution saved");
         this.stopLoading()
       },error => {
